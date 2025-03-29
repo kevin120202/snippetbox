@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"runtime/debug"
 )
 
 // The serverError helper writes a log entry at Error level (including the request
@@ -12,10 +11,9 @@ func (app *application) serverError(w http.ResponseWriter, r *http.Request, err 
 	var (
 		method = r.Method
 		uri    = r.URL.RequestURI()
-		trace  = string(debug.Stack())
 	)
 
-	app.logger.Error(err.Error(), "method", method, "uri", uri, "trace", trace)
+	app.logger.Error(err.Error(), "method", method, "uri", uri)
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
